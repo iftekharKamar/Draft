@@ -5,7 +5,7 @@ const connectDB = require('./config/db');
 const userRoute=require("./routes/userRoutes")
 const blogRoute=require("./routes/blogRoutes")
 const cookieParser=require("cookie-parser")
-const {checkForAuthenticationCookie}=require("./middlewares/authMiddleware");
+const {checkForAuthenticationCookie}=require("./middlewares/authMiddleware"); 
 const Blog = require('./models/blogModel');
 
 connectDB();
