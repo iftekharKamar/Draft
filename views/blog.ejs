@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            background-color: #f9f9f9;
+            /* Very soft grey background */
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* The Article Text Style - Like Medium.com */
+        .blog-content {
+            font-family: 'Merriweather', serif;
+            font-size: 1.2rem;
+            line-height: 1.9;
+            color: #2c3e50;
+        }
+
+        /* First letter Drop Cap effect */
+        .blog-content::first-letter {
+            font-size: 3.5rem;
+            font-weight: bold;
+            float: left;
+            margin-right: 10px;
+            line-height: 0.8;
+            color: #0d6efd;
+            /* Bootstrap Primary Color */
+        }
+
+        .author-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment-card {
+            transition: transform 0.2s;
+        }
+
+        .comment-card:hover {
+            transform: translateY(-2px);
+            /* Subtle lift effect */
+        }
+    </style>
+
+    <title>Blog</title>
+    <%- include('partials/head') %>
+
+</head>
+
+<body>
+    <%- include('partials/navbar') %>
+
+        <div class="container mt-5 mb-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-md-10">
+
+                    <header class="mb-4 text-center text-md-start">
+                        <span class="badge bg-primary bg-opacity-10 text-primary mb-2 px-3 py-2 rounded-pill">
+                            Blog Article
+                        </span>
+
+                        <h1 class="fw-bold display-4 text-dark mb-3" style="letter-spacing: -1px;">
+                            <%= blog.title %>
+                        </h1>
+
+                        <div class="d-flex align-items-center justify-content-center justify-content-md-start mt-4">
+                            <img src="<%= blog.createdBy.profileURL %>" class="rounded-circle author-img me-3"
+                                alt="Author">
+                            <div>
+                                <p class="mb-0 fw-bold text-dark">
+                                    <%= blog.createdBy.fullName %>
+                                </p>
+                                <p class="mb-0 text-muted small">
+                                    Posted on
+                                    <%= new Date(blog.createdAt).toLocaleDateString('en-US', { day: 'numeric' ,
+                                        month: 'short' , year: 'numeric' }) %>
+                                        • 5 min read
+                                </p>
+                            </div>
+                        </div>
+                    </header>
+
+                    <figure class="mb-5">
+                        <img src="<%= blog.coverImageURL %>" class="img-fluid w-100 rounded-4 shadow-lg"
+                            alt="Cover Image" style="max-height: 500px; object-fit: cover;">
+                    </figure>
+
+                    <article class="blog-content mb-5" style="white-space: pre-wrap;">
+                        <%= blog.body %>
+                    </article>
+
+                    <hr class="my-5" style="opacity: 0.1">
+
+                    <section>
+                        <h3 class="fw-bold mb-4">Discussion (<%= comments.length %>)</h3>
+
+                        <% if (locals.user) { %>
+                            <div class="card border-0 shadow-sm rounded-4 mb-5 bg-white p-3">
+                                <div class="card-body">
+                                    <form action="/blog/comment/<%= blog._id %>" method="POST">
+                                        <div class="d-flex flex-column flex-md-row gap-3">
+
+                                            <div class="d-none d-md-block">
+                                                <img src="<%= locals.user.profileImageURL || 'https://ui-avatars.com/api/?name=' + locals.user.fullName %>"
+                                                    class="rounded-circle border" width="50" height="50">
+                                            </div>
+
+                                            <div class="flex-grow-1">
+                                                <textarea name="content"
+                                                    class="form-control border-0 bg-light p-3 rounded-3" rows="3"
+                                                    placeholder="What are your thoughts, <%= locals.user.fullName %>?"
+                                                    style="resize: none;" required></textarea>
+
+                                                <div class="text-end mt-2">
+                                                    <button type="submit"
+                                                        class="btn btn-primary rounded-pill px-4 fw-bold">
+                                                        Post
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <% } else { %>
+                                <div class="alert alert-light text-center border shadow-sm py-4 rounded-4">
+                                    <h5>Want to join the conversation?</h5>
+                                    <p class="text-muted">Login to post a comment.</p>
+                                    <a href="/user/signin" class="btn btn-outline-primary rounded-pill px-4">Login Now</a>
+                                </div>
+                                <% } %>
+
+                                    <div class="d-flex flex-column gap-3">
+                                        <% comments.forEach(comm=> { %>
+                                            <div class="comment-card card border-0 shadow-sm rounded-4 p-3 bg-white">
+                                                <div class="d-flex gap-3">
+                                                    <img src="<%= comm.createdBy.profileURL %>"
+                                                        class="rounded-circle border" width="45" height="45"
+                                                        style="object-fit: cover;">
+
+                                                    <div>
+                                                        <div>
+                                                            <h6 class="fw-bold mb-1">
+                                                                <%= comm.createdBy.fullName %>
+                                                            </h6>
+                                                            <p class="mb-0 text-muted small" style="font-size: 0.8rem;">
+                                                                <%= new Date(comm.createdAt).toLocaleDateString('en-US',
+                                                                    { day: 'numeric' , month: 'short' , year: 'numeric'
+                                                                    }) %>
+                                                            </p>
+                                                        </div>
+                                                        <p class="text-secondary mb-0 bg-light p-3 rounded-3" style="font-size: 1.2rem;">
+                                                            <%= comm.content %>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% }) %>
+                                    </div>
+                    </section>
+
+                    <div style="height: 100px;"></div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <%- include('partials/script') %>
+</body>
+
+</html>
