@@ -2,49 +2,7 @@
 <html lang="en">
 
 <head>
-    <style>
-        body {
-            background-color: #f9f9f9;
-            /* Very soft grey background */
-            font-family: 'Poppins', sans-serif;
-        }
-
-        /* The Article Text Style - Like Medium.com */
-        .blog-content {
-            font-family: 'Merriweather', serif;
-            font-size: 1.2rem;
-            line-height: 1.9;
-            color: #2c3e50;
-        }
-
-        /* First letter Drop Cap effect */
-        .blog-content::first-letter {
-            font-size: 3.5rem;
-            font-weight: bold;
-            float: left;
-            margin-right: 10px;
-            line-height: 0.8;
-            color: #0d6efd;
-            /* Bootstrap Primary Color */
-        }
-
-        .author-img {
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-            border: 2px solid #fff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .comment-card {
-            transition: transform 0.2s;
-        }
-
-        .comment-card:hover {
-            transform: translateY(-2px);
-            /* Subtle lift effect */
-        }
-    </style>
+    
 
     <title>Blog</title>
     <%- include('partials/head') %>
@@ -68,11 +26,11 @@
                         </h1>
 
                         <div class="d-flex align-items-center justify-content-center justify-content-md-start mt-4">
-                            <img src="<%= blog.createdBy.profileURL %>" class="rounded-circle author-img me-3"
+                            <img src="<%= blog.createdBy ? blog.createdBy.profileURL : '/images/userAvatar.png' %>" class="rounded-circle author-img me-3"
                                 alt="Author">
                             <div>
                                 <p class="mb-0 fw-bold text-dark">
-                                    <%= blog.createdBy.fullName %>
+                                    <%= blog.createdBy ? blog.createdBy.fullName : 'Unknown Author' %>
                                 </p>
                                 <p class="mb-0 text-muted small">
                                     Posted on

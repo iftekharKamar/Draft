@@ -22,7 +22,7 @@ const handleAddNewBlog = async (req, res) => {
             title,
             body,
             createdBy: req.user._id,
-            coverImageURL: `/uploads/${req.file.filename}`
+            coverImageURL: req.file.path
         });
 
         return res.redirect(`/blog/${blog._id}`);
