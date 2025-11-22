@@ -1,13 +1,11 @@
 const {Router}=require("express");
-const { handleUserSignUp,handleUserSignin,handelUserLogout } = require("../controllers/userControllers");
+const { handleUserSignUp,handleUserSignin,handelUserLogout,handleUserSigninGet } = require("../controllers/userControllers");
 
 
 const router =Router()
 
 
-router.get("/signin",(req,res)=>{
-    res.render("signin");
-});
+router.get("/signin",handleUserSigninGet);
 
 router.get("/signup",(req,res)=>{
     return res.render("signup");

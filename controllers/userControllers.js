@@ -1,5 +1,15 @@
 const User = require("../models/userModel");
 
+
+
+const handleUserSigninGet = (req, res) => {
+    // Pass 'user' for the Navbar, and 'error' as null to prevent crashing
+    res.render("signin", { 
+        user: req.user, 
+        error: null 
+    });
+}
+
 const handleUserSignUp = async (req, res) => {
     const { fullName, email, password } = req.body;
     try {
@@ -38,4 +48,4 @@ const handelUserLogout=(req,res)=>{
 }
 
 
-module.exports={handleUserSignUp,handleUserSignin,handelUserLogout}
+module.exports={handleUserSignUp,handleUserSignin,handelUserLogout,handleUserSigninGet}
