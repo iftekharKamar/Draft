@@ -13,7 +13,6 @@ function checkForAuthenticationCookie(cookieName) {
       req.user = userPayload;
       
     } catch (error) {
-       console.log("Token validation failed:", error.message); 
     }
 
     return next();

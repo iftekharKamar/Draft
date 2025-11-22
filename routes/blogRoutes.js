@@ -1,7 +1,7 @@
 const {Router}=require("express");
 const path =require("path");
 const { handleAddNewBlog,getAllBlogAndComments,handleCreateComments } = require("../controllers/blogControllers");
-const upload = require("../middlewares/multerMiddleware");
+const upload = require("../middleware/multerMiddleware");
 const router =Router()
 
 
